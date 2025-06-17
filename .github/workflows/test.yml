@@ -62,7 +62,7 @@ jobs:
           DB_USERNAME: root
           DB_PASSWORD: ${{ secrets.SQL_SECRET }}
           DB_DATABASE: zipp
-        run: php artisan test --no-interaction
+        run: php artisan test 
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
