@@ -1,4 +1,4 @@
-name: Full workflow for laravel and react.
+name: Full workflow for Laravel and React
 
 on:
   push:
@@ -15,8 +15,8 @@ jobs:
         env:
           MYSQL_DATABASE: zipp
           MYSQL_USER: root
-          MYSQL_PASSWORD: 
-          MYSQL_ROOT_PASSWORD: 
+          MYSQL_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
         options: >-
@@ -26,11 +26,9 @@ jobs:
           --health-retries=3
 
     steps:
-      
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -50,23 +48,24 @@ jobs:
 
       - name: Run Laravel Migrations
         env:
+          DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_USERNAME: root
-          DB_PASSWORD: 
+          DB_PASSWORD: root
           DB_DATABASE: zipp
         run: php artisan migrate --force
 
       - name: Run Laravel Tests
         env:
+          DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_USERNAME: root
-          DB_PASSWORD: 
+          DB_PASSWORD: root
           DB_DATABASE: zipp
         run: php artisan test --no-interaction
 
-      
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -88,8 +87,4 @@ jobs:
       - name: Build Frontend
         run: pnpm build
 
-      
-      - name: Run Laravel Breeze Work (optional)
-        run: |
-          php artisan breeze:install blade
-          php artisan migrate --force
+   
