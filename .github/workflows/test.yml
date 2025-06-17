@@ -14,13 +14,11 @@ jobs:
         image: mysql:8
         env:
           MYSQL_DATABASE: zipp
-          MYSQL_USER: root
-          MYSQL_PASSWORD: root
-          MYSQL_ROOT_PASSWORD:  ${{ secrets.SQL_SECRET }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.SQL_SECRET }}
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -p${MYSQL_ROOT_PASSWORD}"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
@@ -52,7 +50,7 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_USERNAME: root
-          DB_PASSWORD: root
+          DB_PASSWORD: ${{ secrets.SQL_SECRET }}
           DB_DATABASE: zipp
         run: php artisan migrate --force
 
@@ -62,7 +60,7 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_USERNAME: root
-          DB_PASSWORD: root
+          DB_PASSWORD: ${{ secrets.SQL_SECRET }}
           DB_DATABASE: zipp
         run: php artisan test --no-interaction
 
@@ -86,5 +84,3 @@ jobs:
 
       - name: Build Frontend
         run: pnpm build
-
-   
