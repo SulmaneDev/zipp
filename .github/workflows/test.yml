@@ -16,7 +16,7 @@ jobs:
           MYSQL_DATABASE: zipp
           MYSQL_USER: root
           MYSQL_PASSWORD: root
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD:  ${{ secrets.SQL_SECRET }}
         ports:
           - 3306:3306
         options: >-
